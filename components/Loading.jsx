@@ -1,16 +1,16 @@
-import "./loading.css";
+import styles from "./Loading.module.css";
 export default function Loading() {
   return (
-    <div class="loading">
-      <div class="loading-text">
-        <div class="box">
-          <span class="loading-text-words">L</span>
-          <span class="loading-text-words">O</span>
-          <span class="loading-text-words">A</span>
-          <span class="loading-text-words">D</span>
-          <span class="loading-text-words">I</span>
-          <span class="loading-text-words">N</span>
-          <span class="loading-text-words">G</span>
+    <div className={styles.loading}>
+      <div className={styles.loadingtext}>
+        <div className={styles.box}>
+          <span className={styles.loadingtext}>L</span>
+          <span class={styles.loadingtext}>O</span>
+          <span class={styles.loadingtext}>A</span>
+          <span class={styles.loadingtext}>D</span>
+          <span class={styles.loadingtext}>I</span>
+          <span class={styles.loadingtext}>N</span>
+          <span class={styles.loadingtext}>G</span>
         </div>
       </div>
     </div>

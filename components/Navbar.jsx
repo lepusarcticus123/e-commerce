@@ -9,7 +9,17 @@ export default function Navbar({ site }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggest] = useState([]);
   const [trie, setTrie] = useState(new Trie());
-  const isLoggedIn = document.cookie.split(";")[0];
+  const [isLoggedIn, setIsLoggedIn] = useState("");
+
+  useEffect(() => {
+    const cookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("isLoggedIn="));
+    if (cookie) {
+      setIsLoggedIn(cookie.split("=")[1]);
+    }
+  }, []);
+
   const router = useRouter();
   const active =
     "hidden  sm:block bg-blue-300/80 m-3 p-3 rounded cursor-pointer transition-all duration-500 text-white";

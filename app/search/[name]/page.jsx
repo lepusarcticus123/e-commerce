@@ -131,7 +131,9 @@ export default function Details({ params }) {
             &lt;
           </div>
           {loading ? (
-            <div className="w-full h-full bg-gray-300 animate-pulse"></div>
+            <div className="w-full h-full bg-gray-300 animate-pulse">
+              <Loading></Loading>
+            </div>
           ) : (
             <img
               src={images[imageIdx]}
