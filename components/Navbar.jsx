@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Icon from "@/public/Icon.png";
+import Icon from "@/public/icon.png";
 import Link from "next/link";
 import Cart from "@/public/cart.svg";
 import Trie from "@/lib/Trie";
