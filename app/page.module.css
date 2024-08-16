@@ -1,0 +1,43 @@
+.wrapper {
+  width: 100%;
+  overflow: hidden;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.marquee {
+  display: flex;
+  width: 200%;
+  animation: marquee 20s linear infinite;
+}
+
+.track {
+  display: flex;
+  width: 100%;
+}
+
+.card {
+  width: 300px;
+  height: 500px;
+  flex-shrink: 0;
+  background-color: white;
+  margin-right: 20px;
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}
+.card img {
+  margin: auto;
+  display: flex;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
