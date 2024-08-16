@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Loading from "./loading";
+import Loading from "./Loading";
 import { useEffect, useState } from "react";
 export default function Card({ item }) {
   const [data, setData] = useState(null);
