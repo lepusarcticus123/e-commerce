@@ -1,14 +1,14 @@
 import { pool } from "@/lib/database";
 import { authentication } from "../middleware";
 
-export async function GET(req) {
+export async function POST(req) {
   const { status, user, response } = await authentication(req);
   if (status !== 200) {
     return response;
   }
   const { id } = user;
-  const url = new URL(req.url);
-  const productId = url.searchParams.get("product_id");
+  const data = await req.json();
+  const { productId, productCategory } = data;
 
   if (!productId) {
     return new Response(JSON.stringify({ message: "Product ID is required" }), {
@@ -36,8 +36,8 @@ export async function GET(req) {
     } else {
       // If product does not exist, insert it with quantity = 1
       await conn.execute(
-        "INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)",
-        [id, productId, 1]
+        "INSERT INTO cart (user_id, product_id, quantity,category) VALUES (?, ?, ?, ?)",
+        [id, productId, 1, productCategory]
       );
     }
 

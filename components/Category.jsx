@@ -11,7 +11,6 @@ export default function Category({
   const handleClick = (item) => {
     handleCategoryClick(item);
   };
-
   return (
     <div>
       {category ? (
@@ -19,15 +18,13 @@ export default function Category({
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 md:gap-5 gap-2">
             {category.map((item) => (
               <div
-                key={item}
+                key={item.slug}
                 className={
-                  item.toLowerCase() === activeCategory.toLowerCase()
-                    ? active
-                    : unactive
+                  item.slug === activeCategory.toLowerCase() ? active : unactive
                 }
-                onClick={() => handleClick(item)}
+                onClick={() => handleClick(item.slug)}
               >
-                {item}
+                {item.slug}
               </div>
             ))}
           </div>

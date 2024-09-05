@@ -1,11 +1,6 @@
 import { pool } from "@/lib/database";
 import bcrypt from "bcrypt"; // 推荐使用 bcrypt 进行密码哈希
-
-export const generateMetadata = ({ params }) => {
-  return {
-    title: `Sign-in`,
-  };
-};
+import { validateEmail, validatePassword } from "@/lib/validate";
 
 const passwordRegex =
   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,20}$/;
@@ -22,21 +17,13 @@ export async function POST(request) {
     );
   }
 
-  if (!passwordRegex.test(password)) {
-    return new Response(
-      JSON.stringify({
-        message:
-          "Password must be 8-20 characters long and contain at least one number, one uppercase letter, one lowercase letter, and one special character",
-      }),
-      { status: 400, headers: { "Content-Type": "application/json" } }
-    );
+  const validateEmailResult = validateEmail(email);
+  if (validateEmailResult.status != 200) {
+    return validateEmailResult;
   }
-
-  if (!emailRegex.test(email)) {
-    return new Response(JSON.stringify({ message: "Invalid email address" }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+  const validatePasswordResult = validatePassword(password);
+  if (validatePasswordResult.status != 200) {
+    return validatePasswordResult;
   }
 
   const conn = await pool.getConnection();

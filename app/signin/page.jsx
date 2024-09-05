@@ -45,7 +45,7 @@ export default function Login() {
   return (
     <div className="bg-gradient-to-r pt-40 from-blue-200 via-purple-200 to-pink-200 w-full h-screen">
       {error && (
-        <div className="absolute left-1/3 font-serif text-white text-center top-20 text-xl">
+        <div className="absolute w-1/2 left-1/4 bg-white font-serif  text-black text-center top-10 rounded-md p-3 transition-all duration-75 text-xl">
           ❗️ {error}
         </div>
       )}
@@ -99,7 +99,7 @@ export default function Login() {
               Already have an account?{" "}
               <Link
                 className="text-xl underline text-blue-300 font-serif"
-                href="/loginin"
+                href="/login"
               >
                 Log in
               </Link>

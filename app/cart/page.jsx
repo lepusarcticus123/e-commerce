@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
+import Link from "next/link";
 import Loading from "@/components/Loading";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CartAnalysis from "@/components/CartAnalysis"; // 引入ECharts组件
 
 export default function Cart() {
   // 定义购物车商品列表、商品列表、加载状态
@@ -18,9 +20,10 @@ export default function Cart() {
         const response = await fetch("http://localhost:3000/show");
         if (!response.ok) throw new Error("Failed to fetch cart items");
         const data = await response.json();
+        console.log("购物车", data);
         setCartItems(data);
       } catch (error) {
-        console.error("Error fetching cart items:", error);
+        // console.error("Error fetching cart items:", error);
       } finally {
         setLoading(false);
       }
@@ -58,7 +61,10 @@ export default function Cart() {
     const fetchAdd = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/add?product_id=" + productId
+          "http://localhost:3000/add?product_id=" + productId,
+          {
+            method: "POST",
+          }
         );
         if (!response.ok) throw new Error("Failed to add item to cart");
         const data = await response.json();
@@ -145,7 +151,10 @@ export default function Cart() {
                     />
                   </div>
                   <div className=" text-sm sm:text-base md:text-xl m:w-2/3 w-full my-5 sm:mx-10 mx-5">
-                    <p className="m-2 font-serif">{product.title}</p>
+                    <Link href={`/details/${product.id}`}>
+                      <p className="m-2 font-serif">{product.title}</p>
+                    </Link>
+
                     <p className="m-2">🔖 Brand:{product.brand}</p>
                     <p className="m-2">💵 price:{product.price}</p>
                     <div className="float-left md:w-28 w-24 rounded-md font-serif mt-10 border-2">
@@ -173,11 +182,19 @@ export default function Cart() {
                 </div>
               );
             })}
+            <CartAnalysis cartItems={cartItems} />
           </div>
         ) : (
-          <div className="pt-50 w-11/12 mx-auto"> Your cart is empty</div>
+          <div className="pt-24 pb-5 w-11/12 mx-auto text-center font-bold">
+            <p className="pb-5 text-2xl font-serif">Your cart is empty</p>
+            <Link href="/" className="mt-5 text-blue-300 hover:underline">
+              To the index👉
+            </Link>
+          </div>
         )}
-        <Footer />
+        <div className="md:text-xl text-sm">
+          <Footer />
+        </div>
       </div>
     </div>
   );

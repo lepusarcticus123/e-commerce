@@ -12,11 +12,14 @@ export default function Navbar({ site }) {
   const [isLoggedIn, setIsLoggedIn] = useState("");
 
   useEffect(() => {
-    const cookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("isLoggedIn="));
-    if (cookie) {
-      setIsLoggedIn(cookie.split("=")[1]);
+    if (document.cookie) {
+      const cookie = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("token="));
+      // console.log(cookie);
+      if (cookie) {
+        setIsLoggedIn("True");
+      }
     }
   }, []);
 
@@ -30,13 +33,13 @@ export default function Navbar({ site }) {
       const response = await fetch("https://dummyjson.com/products");
       const data = await response.json();
       const products = data.products;
-      console.log(products);
+      // console.log(products);
       const newTrie = new Trie();
       products.map((product) => {
-        newTrie.insert(product.title);
+        newTrie.insert(product.title.toLowerCase());
       });
       setTrie(newTrie);
-      console.log("trie", trie);
+      // console.log("trie", trie);
     };
 
     fetchProducts();
@@ -55,7 +58,8 @@ export default function Navbar({ site }) {
       setSuggest(suggestions);
     };
     if (query) {
-      getSuggestions(query);
+      const debouncedGetSuggestions = debounce(getSuggestions, 500);
+      debouncedGetSuggestions(query);
     } else {
       setSuggest([]);
     }
@@ -64,6 +68,15 @@ export default function Navbar({ site }) {
   const search = (suggestion) => {
     router.push("/search/" + suggestion);
   };
+  const debounce = (func, wait) => {
+    let timeout;
+    return function (...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+  };
+
   return (
     <nav className=" flex fixed z-20 bg-slate-100/10 backdrop-blur-2xl font-mono justify-between items-center sm:text-md md:text-lg lg:text-xl shadow-md w-full">
       <div className="flex items-center">

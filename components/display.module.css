@@ -12,3 +12,13 @@
   font-weight: 900;
   padding-left: 2px;
 }
+
+.masonry {
+  column-count: 4; /* 设置列数 */
+  column-gap: 1em;
+}
+
+.masonry > * {
+  break-inside: avoid; /* 防止项目内容断裂 */
+  margin-bottom: 1em;
+}

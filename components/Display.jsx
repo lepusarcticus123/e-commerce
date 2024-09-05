@@ -7,12 +7,17 @@ export default function Display() {
   const [category, setCategory] = useState([]);
 
   useEffect(() => {
-    const getCategory = async () => {
-      const res = await fetch("https://dummyjson.com/products/categories");
-      const category = await res.json();
-      setCategory(category);
-    };
-    getCategory();
+    if (localStorage.getItem("category")) {
+      setCategory(JSON.parse(localStorage.getItem("category")));
+    } else {
+      const getCategory = async () => {
+        const res = await fetch("https://dummyjson.com/products/categories");
+        const category = await res.json();
+        setCategory(category);
+        localStorage.setItem("category", JSON.stringify(category));
+      };
+      getCategory();
+    }
   }, []);
 
   return (
@@ -28,9 +33,15 @@ export default function Display() {
         </Link>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-        {category.map((item) => (
-          <Card item={item} key={item.name}></Card>
-        ))}
+        {category.length === 0 ? (
+          <div className="w-screen h-screen"></div>
+        ) : (
+          <>
+            {category.map((item) => (
+              <Card item={item} key={item.name}></Card>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

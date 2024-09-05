@@ -52,11 +52,12 @@ export default function Details({ params }) {
     }
   }, []);
 
-  const handleAddToCart = async (productId) => {
+  const handleAddToCart = async (productId, productCategory) => {
     try {
-      const res = await fetch(
-        `http://localhost:3000/add/?product_id=${productId}`
-      );
+      const res = await fetch(`http://localhost:3000/add`, {
+        method: "POST",
+        body: JSON.stringify({ productId, productCategory }),
+      });
       if (!res.ok) throw new Error("Failed to add to cart");
       const data = await res.json();
       console.log(data);
@@ -69,11 +70,12 @@ export default function Details({ params }) {
       manipulateButton.current.style.display = "block";
     }
   };
-  const handleAdd = async (productId) => {
+  const handleAdd = async (productId, productCategory) => {
     try {
-      const res = await fetch(
-        `http://localhost:3000/add/?product_id=${productId}`
-      );
+      const res = await fetch(`http://localhost:3000/add`, {
+        method: "POST",
+        body: JSON.stringify({ productId, productCategory }),
+      });
       const data = await res.json();
       console.log(data);
       setQuantity(quantity + 1);
@@ -99,9 +101,9 @@ export default function Details({ params }) {
       setQuantity(quantity - 1);
       try {
         const res = await fetch(
-          `http://localhost:3000/sub/?product_id=${productId}`
+          `http://localhost:3000/substruct?product_id=${productId}`
         );
-        if (!res.ok) throw new Error("Failed to add to cart");
+        if (!res.ok) throw new Error("Failed to subtract item");
         const data = await res.json();
         console.log(data);
       } catch (err) {
@@ -178,7 +180,7 @@ export default function Details({ params }) {
           <div className="mt-5">
             <button
               ref={addButton}
-              onClick={() => handleAddToCart(product.id)}
+              onClick={() => handleAddToCart(product.id, product.category)}
               className="bg-slate-200 rounded p-3"
             >
               Add to Cart
@@ -186,7 +188,7 @@ export default function Details({ params }) {
             <div ref={manipulateButton}>
               <button
                 className="bg-slate-200 mx-3 rounded py-1 px-3"
-                onClick={() => handleAdd(product.id)}
+                onClick={() => handleAdd(product.id, product.category)}
               >
                 +
               </button>
